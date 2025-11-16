@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <title>The H-1B Process - H-1B Visa Facts</title>
+    <!-- 1. Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Using Inter font, as recommended */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Deep Navy Blue background (Slate-900) */
+            color: #e2e8f0; /* Light text for contrast */
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-950 shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-lg font-bold text-white">
+                <a href="index.html">H-1B Real Facts</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+                <a href="process.html" class="text-white font-bold">H-1B Process</a> <!-- Active page -->
+                <a href="index.html#myths" class="text-gray-300 hover:text-white">Myths vs. Facts</a>
+                <a href="index.html#contributions" class="text-gray-300 hover:text-white">Contributions</a>
+
+                <!-- Quick Links Dropdown -->
+                <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                    <button @click="open = !open" class="text-gray-300 hover:text-white flex items-center">
+                        <span>Quick Links</span>
+                        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <div x-show="open" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">USCIS H-1B Program</a>
+                        <a href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">BLS (Tech Wages)</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Load Alpine.js for dropdown interactivity -->
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <!-- Header Section (CHANGED) -->
+    <header class="container mx-auto px-6 py-10"> <!-- Removed bg-white shadow-sm -->
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-extrabold text-white tracking-tight md:text-5xl">The H-1B Visa Process</h1> <!-- Changed text color -->
+            <p class="mt-2 text-xl text-gray-300">A multi-agency process involving strict scrutiny, high costs, and chance.</p> <!-- Changed text color -->
+        </div>
+    </header>
+
+    <!-- Main Content: Flowchart -->
+    <main class="container mx-auto p-6 mt-8">
+        <div class="flex flex-col items-center">
+
+            <!-- Step 1: Employer Prep -->
+            <div class="bg-white text-gray-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Step 1: Employer Preparation</span>
+                <h3 class="text-2xl font-bold mb-2">Specialty Occupation & Wage</h3>
+                <p class="text-gray-700">The employer must define a job that requires at least a U.S. Bachelor's degree (a "specialty occupation"). The employer must then get a "Prevailing Wage" from the Dept. of Labor (DOL) and attest they will pay this wage or higher.</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 2: LCA -->
+            <div class="bg-white text-gray-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Step 2: Dept. of Labor</span>
+                <h3 class="text-2xl font-bold mb-2">File Labor Condition Application (LCA)</h3>
+                <p class="text-gray-700">The employer files Form ETA-9035 with the DOL. This form proves they are paying the correct wage, that working conditions are not adversely affected, and that there is no strike/lockout at the company.</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 3: Lottery -->
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-red-200 text-red-900 text-sm font-semibold px-3 py-1 rounded-full mb-3">HURDLE 1: The Lottery</span>
+                <h3 class="text-2xl font-bold mb-2">H-1B Registration (The Lottery)</h3>
+                <p class="text-red-700">In March, the employer submits a registration for the applicant. There are **85,000** available visas (the "cap") but over **470,000** registrations (FY25). A random computer lottery selects who gets to file.</p>
+                <p class="text-red-700 font-bold mt-2">FY25 selection rate: ~18%</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 4: Petition -->
+            <div class="bg-white text-gray-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full mb-3">Step 4: USCIS Petition (If Selected)</span>
+                <h3 class="text-2xl font-bold mb-2">File Form I-129 Petition</h3>
+                <p class="text-gray-700">If selected, the employer has 90 days to file a massive petition (often 100+ pages) with U.S. Citizenship and Immigration Services (USCIS). This includes the LCA, job details, and extensive proof of the applicant's qualifications (diplomas, transcripts, work experience, etc.) and costs thousands in legal/filing fees.</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 5: USCIS Scrutiny -->
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-red-200 text-red-900 text-sm font-semibold px-3 py-1 rounded-full mb-3">HURDLE 2: USCIS Adjudication</span>
+                <h3 class="text-2xl font-bold mb-2">Petition Review & RFE</h3>
+                <p class="text-red-700">A USCIS officer reviews the petition. They can (and often do) issue a **"Request for Evidence" (RFE)**, demanding more proof that the job is a specialty occupation or that the applicant is qualified. The employer must respond with more documentation.</p>
+                <p class="text-red-700 font-bold mt-2">This is a major point of denial, even after winning the lottery.</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 6: Consular Interview -->
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-red-200 text-red-900 text-sm font-semibold px-3 py-1 rounded-full mb-3">HURDLE 3: Consular Interview</span>
+                <h3 class="text-2xl font-bold mb-2">Visa Stamping (Dept. of State)</h3>
+                <p class="text-red-700">If the petition is approved by USCIS, the applicant must schedule an in-person visa interview at a U.S. Embassy or Consulate in their home country. A Consular Officer conducts the interview and has the **final authority** to approve or deny the visa based on their own assessment.</p>
+            </div>
+
+            <div class="text-3xl text-gray-400 my-4">↓</div>
+
+            <!-- Step 7: Final -->
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-800 p-6 rounded-2xl shadow-lg w-full md:w-2/3 lg:w-1/2">
+                <span class="inline-block bg-green-200 text-green-900 text-sm font-semibold px-3 py-1 rounded-full mb-3">Final Step: Approval</span>
+                <h3 class="text-2xl font-bold mb-2">Visa Stamp & U.S. Entry</h3>
+                <p class="text-green-700">If the officer approves the visa, a stamp ("foil") is placed in the applicant's passport. Only now can the applicant legally travel to the U.S. and begin working, often 6-8 months after the process began.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="text-center py-10 mt-12 border-t border-gray-700">
+        <p class="text-gray-300">
+            Data sourced from U.S. Bureau of Labor Statistics (BLS), U.S. Citizenship and Immigration Services (USCIS), CompTIA, and NFAP.
+        </p>
+        <p class="text-sm text-gray-400 mt-1">This page is a static educational resource. All data is based on publicly available official reports.</p>
+    </footer>
+
+</body>
+</html>
