@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale-1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The H-1B Process - H-1B Visa Facts</title>
     <!-- 1. Load Tailwind CSS --><script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. NEW Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' fill='%2316a34a'><rect x='25' y='10' width='10' height='80' rx='3' /><rect x='55' y='10' width='10' height='80' rx='3' /><rect x='25' y='45' width='40' height='10' rx='3' /><path d='M65 10 h 10 a 19 19 0 0 1 0 38 h -10' /><path d='M65 52 h 10 a 19 19 0 0 1 0 38 h -10' /></svg>">
     <style>
         /* Using Inter font, as recommended */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
@@ -24,7 +26,24 @@
     <nav class="sticky top-0 z-50 bg-slate-950 shadow-md">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="text-lg font-bold text-white">
-                <a href="index.html">H-1B Real Facts</a>
+                <!-- REPLACED TEXT WITH SVG LOGO -->
+                <a href="index.html" class="flex items-center space-x-2" title="H-1B Real Facts Home">
+                    <!-- NEW SVG LOGO (HB Monogram) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" height="28" width="28" viewBox="0 0 100 100" fill="white">
+                      <title>HB Facts Logo</title>
+                      <!-- H - Left Stem -->
+                      <rect x="25" y="10" width="10" height="80" rx="3" />
+                      <!-- Shared Stem (H-Right, B-Left) -->
+                      <rect x="55" y="10" width="10" height="80" rx="3" />
+                      <!-- H - Crossbar -->
+                      <rect x="25" y="45" width="40" height="10" rx="3" />
+                      <!-- B - Top Curve -->
+                      <path d="M65 10 h 10 a 19 19 0 0 1 0 38 h -10" />
+                      <!-- B - Bottom Curve -->
+                      <path d="M65 52 h 10 a 19 19 0 0 1 0 38 h -10" />
+                    </svg>
+                    <span>H-1B Real Facts</span>
+                </a>
             </div>
             <div class="hidden md:flex items-center space-x-6">
                 <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
@@ -130,11 +149,35 @@
 
     <!-- Footer -->
     <footer class="text-center py-10 mt-12 border-t border-gray-700">
+        <div class="mb-4">
+            <span class="text-gray-300">Site Visitors:</span>
+            <!-- Use the *same* namespace as index.html to share the count -->
+            <span id="visitor-count" class="text-xl font-bold text-green-500">...</span>
+        </div>
         <p class="text-gray-300">
             Data sourced from U.S. Bureau of Labor Statistics (BLS), U.S. Citizenship and Immigration Services (USCIS), CompTIA, and NFAP.
         </p>
         <p class="text-sm text-gray-400 mt-1">This page is a static educational resource. All data is based on publicly available official reports.</p>
     </footer>
 
+    <!-- NEW VISITOR COUNTER SCRIPT -->
+    <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const countEl = document.getElementById('visitor-count');
+
+            // We use "get" here instead of "hit" so that visiting this page
+            // doesn't double-count a user who just landed on the homepage.
+            // We only want to *display* the total count here.
+            fetch('https://api.countapi.xyz/get/h1breal.info/visits')
+                .then(response => response.json())
+                .then(data => {
+                    countEl.textContent = data.value.toLocaleString('en-US');
+                })
+                .catch(error => {
+                    console.error('Error fetching visitor count:', error);
+                    countEl.textContent = 'N/A';
+                });
+        });
+    </script>
 </body>
 </html>
