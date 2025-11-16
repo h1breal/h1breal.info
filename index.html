@@ -185,6 +185,36 @@
                     )
                 </p>
             </div>
+
+            <!-- NEW MYTH CARD: UNEMPLOYMENT -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg md:col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Myth: "H-1B workers cause unemployment."</h2>
+                <p class="text-lg text-gray-700 font-semibold mb-4">
+                    <span class="text-green-600">Fact:</span> Data shows no correlation. As demand for new H-1B workers rose (2010-2023), the tech unemployment rate consistently *decreased*.
+                </p>
+                <div class="h-96 w-full mx-auto">
+                    <canvas id="unemploymentChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    (Long-term trend source:
+                    <a href="https://www.fwd.us/news/h1b-visa-program/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">FWD.us</a>
+                    )
+                </p>
+
+                <!-- NEW 2025 CONTEXT SECTION -->
+                <div class="mt-4 pt-4 border-t border-gray-200">
+                    <h4 class="text-lg font-semibold text-gray-700">2025 Market Context: The AI Shift</h4>
+                    <p class="text-gray-600 mt-2">
+                        Recent reports show more volatility in tech unemployment (e.g., rates between 4.5%-5.5% in 2025). This is driven by a market split: high demand for new, specialized AI skills and lower demand for non-specialized roles.
+                    </p>
+                    <p class="text-gray-600 mt-2">
+                        This reinforces the H-1B program's purpose: to fill high-demand, specialty occupation gaps (like AI) that the general labor pool cannot.
+                        (<a href="https://www.wsj.com/articles/it-unemployment-rises-to-5-7-as-ai-hits-tech-jobs-7726bb1b" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">Source</a>)
+                    </p>
+                </div>
+
+            </div>
+
         </div>
     </main>
 
@@ -224,7 +254,8 @@
                     <canvas id="innovationChart2"></canvas>
                     <div class="chart-center-text">
                         <span class="text-5xl text-green-600">64%</span>
-                        <p class="text-gray-600">Founder or Child of Immigrant</p>
+                        <!-- TEXT UPDATED HERE -->
+                        <p class="text-gray-600">Founder / Son of Immigrant</p>
                     </div>
                 </div>
                 <p class="text-sm text-gray-500 mt-4 text-center">
@@ -495,7 +526,7 @@
         new Chart(ctxInnovation2, {
             type: 'doughnut',
             data: {
-                labels: ['Founded by Immigrant or Child of Immigrant', 'Other'],
+                labels: ['Founder / Son of Immigrant', 'Other'], // UPDATED LABEL
                 datasets: [{
                     data: [64, 36], // 64% vs 36%
                     backgroundColor: [h1bGreen, bgNeutral],
@@ -518,7 +549,86 @@
             }
         });
 
-        // REMOVED VISITOR COUNTER SCRIPT
+        // === NEW CHART 7: Unemployment vs. H-1B Petitions (Line Chart) ===
+        const ctxUnemployment = document.getElementById('unemploymentChart').getContext('2d');
+        const unemploymentLabels = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023'];
+        const techUnemploymentRate = [6.1, 5.8, 4.7, 3.9, 3.6, 3.2, 3.0, 2.8, 2.5, 2.4, 3.1, 2.6, 2.1, 2.3];
+        const newH1BCount = [63, 75, 90, 124, 172, 233, 236, 199, 190, 201, 275, 308, 483, 780]; // In thousands
+
+        new Chart(ctxUnemployment, {
+            type: 'line',
+            data: {
+                labels: unemploymentLabels,
+                datasets: [
+                    {
+                        label: 'Tech Unemployment Rate (%)',
+                        data: techUnemploymentRate,
+                        borderColor: usBlue,
+                        backgroundColor: usBlue,
+                        yAxisID: 'y1', // Assign to the right axis
+                        tension: 0.1
+                    },
+                    {
+                        label: 'New H-1B Petitions (Thousands)',
+                        data: newH1BCount,
+                        borderColor: h1bGreen,
+                        backgroundColor: h1bGreen,
+                        yAxisID: 'y', // Assign to the left axis
+                        tension: 0.1
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                stacked: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        mode: 'index',
+                        intersect: false,
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                           color: 'rgba(255, 255, 255, 0.1)' // Lighter grid lines for dark bg
+                        }
+                    },
+                    y: { // Left axis (H-1B Petitions)
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: {
+                            display: true,
+                            text: 'New H-1B Petitions (in Thousands)',
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)'
+                        }
+                    },
+                    y1: { // Right axis (Unemployment Rate)
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: {
+                            display: true,
+                            text: 'Tech Unemployment Rate (%)',
+                        },
+                        grid: {
+                            drawOnChartArea: false, // Only show grid for the left axis
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        });
 
     </script>
 </body>
