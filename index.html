@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H-1B Visa Facts: The Data vs. The Myths</title>
+    <!-- 1. Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 2. Load Chart.js for our infographics -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+        <style>
+        /* Using Inter font, as recommended */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap');
+        html {
+            scroll-behavior: smooth; /* Add smooth scrolling for on-page links */
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Deep Navy Blue background (Slate-900) */
+            color: #e2e8f0; /* Light text for contrast */
+        }
+        /* Custom styles for Chart.js text */
+        .chart-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            font-weight: 800;
+        }
+        /* Define our brand colors */
+        :root {
+            --h1b-green: #16a34a; /* Green-600 */
+            --us-blue: #3b82f6; /* Blue-500 */
+            --us-blue-light: #93c5fd; /* Blue-300 */
+            --text-gray-dark: #1f2937; /* Gray-800 */
+            --text-gray-medium: #4b5563; /* Gray-600 */
+            --text-gray-light: #6b7280; /* Gray-500 */
+            --bg-light: #ffffff;
+            --bg-neutral: #e5e7eb; /* Gray-200 */
+        }
+    </style>
+</head>
+<body class="text-gray-700">
+
+    <!-- New Navigation Bar -->
+    <nav class="sticky top-0 z-50 bg-slate-950 shadow-md">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-lg font-bold text-white">
+                <a href="index.html">H-1B Real Facts</a>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-gray-300 hover:text-white">Home</a>
+                <a href="process.html" class="text-gray-300 hover:text-white">H-1B Process</a>
+                <a href="#myths" class="text-gray-300 hover:text-white">Myths vs. Facts</a>
+                <a href="#contributions" class="text-gray-300 hover:text-white">Contributions</a>
+
+                <!-- Quick Links Dropdown -->
+                <div class="relative" x-data="{ open: false }" @click.away="open = false">
+                    <button @click="open = !open" class="text-gray-300 hover:text-white flex items-center">
+                        <span>Quick Links</span>
+                        <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    </button>
+                    <div x-show="open" x-transition class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
+                        <a href="https://www.uscis.gov/working-in-the-united-states/h-1b-specialty-occupations" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">USCIS H-1B Program</a>
+                        <a href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" target="_blank" rel="noopener noreferrer" class="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100">BLS (Tech Wages)</a>
+                    </div>
+                </div>
+            </div>
+            <!-- Mobile Menu (optional, can be added later) -->
+        </div>
+    </nav>
+
+    <!-- Load Alpine.js for dropdown interactivity -->
+    <script src="//unpkg.com/alpinejs" defer></script>
+
+    <!-- Header Section (CHANGED) -->
+    <header class="container mx-auto px-6 py-10"> <!-- Removed bg-white shadow-sm -->
+        <div class="container mx-auto">
+            <h1 class="text-4xl font-extrabold text-white tracking-tight md:text-5xl">H-1B Visa Facts</h1> <!-- Changed text color -->
+            <p class="mt-2 text-xl text-gray-300">Separating Misinformation from Official Data</p> <!-- Changed text color -->
+        </div>
+    </header>
+
+    <!-- Main Content Grid (Added id="myths") --><main id="myths" class="container mx-auto p-6 mt-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <!-- Card 1: H-1B vs. Total Workforce --><div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Myth: "Millions of H-1B workers are taking over the U.S. workforce."</h2>
+                <p class="text-lg text-gray-700 font-semibold mb-4">
+                    <span class="text-green-600">Fact:</span> H-1B workers represent a tiny fraction of the total U.S. workforce.
+                </p>
+                <div class="relative h-64 w-full mx-auto">
+                    <canvas id="populationChart"></canvas>
+                    <div class="chart-center-text">
+                        <span class="text-5xl text-green-600">0.37%</span>
+                        <p class="text-gray-600">of U.S. Workforce</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    (
+                    <a href="https://www.fwd.us/news/h1b-visa-program/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">~600k H-1B workers</a>
+                    vs.
+                    <a href="https://www.bls.gov/news.release/empsit.a.htm" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">163.4 million U.S. employed</a>
+                    )
+                </p>
+            </div>
+
+            <!-- Card 2: H-1B vs. Tech Workforce --><div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Myth: "90% of all U.S. tech jobs are held by H-1B workers."</h2>
+                <p class="text-lg text-gray-700 font-semibold mb-4">
+                    <span class="text-green-600">Fact:</span> H-1B workers in tech-specific roles make up less than 4% of the U.S. tech workforce.
+                </p>
+                <div class="relative h-64 w-full mx-auto">
+                    <canvas id="techPopulationChart"></canvas>
+                    <div class="chart-center-text">
+                        <span class="text-5xl text-green-600">3.9%</span>
+                        <p class="text-gray-600">of U.S. Tech Workforce</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    (Approx. ~390k H-1B tech workers vs.
+                    <a href="https://www.comptia.org/en-us/resources/research/state-of-the-tech-workforce-2024" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">9.9 million U.S. tech workers</a>
+                    )<br>
+                    <span class="text-xs text-gray-400">
+                        (Tech worker % based on 3-year avg from
+                        <a href="https://www.uscis.gov/sites/default/files/document/reports/ola_signed_h1b_characteristics_congressional_report_FY24.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">FY24</a>,
+                        <a href="https://www.uscis.gov/sites/default/files/document/reports/OLA_Signed_H-1B_Characteristics_Congressional_Report_FY2023.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">FY23</a>, &
+                        <a href="https://www.uscis.gov/sites/default/files/document/data/OLA_Signed_H-1B_Characteristics_Congressional_Report_FY2022.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">FY22</a>
+                        USCIS reports)
+                    </span>
+                </p>
+            </div>
+
+            <!-- Card 3: Tech Wage Comparison --><div class="bg-white p-6 rounded-2xl shadow-lg md:col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Myth: "H-1B workers are cheap labor used to undercut U.S. wages."</h2>
+                <p class="text-lg text-gray-700 font-semibold mb-4">
+                    <span class="text-green-600">Fact:</span> The median for H-1B *tech* workers is even higher than the median for U.S. software developers.
+                </p>
+                <div class="h-96 w-full mx-auto">
+                    <canvas id="techWageChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    (Sources:
+                    <a href="https://www.uscis.gov/sites/default/files/document/reports/ola_signed_h1b_characteristics_congressional_report_FY24.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">USCIS FY24 Report</a>
+                    and
+                    <a href="https://www.bls.gov/ooh/computer-and-information-technology/home.htm" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">BLS</a>
+                    )
+                </p>
+            </div>
+
+            <!-- Card 4: Education Level --><div class="bg-white p-6 rounded-2xl shadow-lg md:col-span-2">
+                <h2 class="text-2xl font-bold text-gray-800 mb-4">Myth: "H-1B is a low-skill program."</h2>
+                <p class="text-lg text-gray-700 font-semibold mb-4">
+                    <span class="text-green-600">Fact:</span> The program is, by definition, for "specialty occupations" requiring a degree. H-1B holders are far more likely to hold advanced degrees.
+                </p>
+                <div class="h-96 w-full mx-auto">
+                    <canvas id="educationChart"></canvas>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    (Sources:
+                    <a href="https://www.uscis.gov/sites/default/files/document/reports/ola_signed_h1b_characteristics_congressional_report_FY24.pdf" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">USCIS FY24 Report</a>
+                    and
+                    <a href="https://www.census.gov/newsroom/press-releases/2025/educational-attainment-data.html" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">U.S. Census Bureau</a>
+                    )
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- New Contributions Section (Added id="contributions") --><section id="contributions" class="container mx-auto p-6 mt-12">
+        <h2 class="text-4xl font-extrabold text-white tracking-tight text-center">Beyond the Numbers: Economic Contributions</h2>
+        <p class="mt-2 text-xl text-gray-300 text-center">High-skilled immigrants are a vital part of the U.S. economy.</p>
+
+        <!-- NEW Grid Layout for Contributions -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-10">
+
+            <!-- Contribution Card 1: Innovation (Chart 1) -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Innovation: Immigrant Founders</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    <span class="text-green-600 font-semibold">Fact:</span> Over half of U.S. billion-dollar "unicorn" startups were founded by immigrants.
+                </p>
+                <div class="relative h-64 w-full mx-auto">
+                    <canvas id="innovationChart1"></canvas>
+                    <div class="chart-center-text">
+                        <span class="text-5xl text-green-600">55%</span>
+                        <p class="text-gray-600">Immigrant-Founded</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    Source:
+                    <a href="https://nfap.com/research/new-nfap-policy-brief-immigrant-entrepreneurs-and-u-s-billion-dollar-companies/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">NFAP Report</a>
+                </p>
+            </div>
+
+            <!-- Contribution Card 2: Innovation (Chart 2) -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Innovation: Immigrant Connection</h3>
+                <p class="text-lg text-gray-700 mb-4">
+                    <span class="text-green-600 font-semibold">Fact:</span> Nearly two-thirds of U.S. unicorns were founded by immigrants or their children.
+                </p>
+                <div class="relative h-64 w-full mx-auto">
+                    <canvas id="innovationChart2"></canvas>
+                    <div class="chart-center-text">
+                        <span class="text-5xl text-green-600">64%</span>
+                        <p class="text-gray-600">Founder or Child of Immigrant</p>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-500 mt-4 text-center">
+                    Source:
+                    <a href="https://nfap.com/research/new-nfap-policy-brief-immigrant-entrepreneurs-and-u-s-billion-dollar-companies/" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">NFAP Report</a>
+                </p>
+            </div>
+
+            <!-- Contribution Card 3: Taxes (Updated with numbers) -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Tax & Social Security</h3>
+                <p class="text-lg text-gray-700">
+                    H-1B workers are significant net contributors to the U.S. tax system.
+                </p>
+                <ul class="mt-4 space-y-2 text-gray-700">
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Contribute over <strong>$5.7 Billion annually</strong> to Social Security & Medicare (FICA) alone, which many may never collect.</span>
+                    </li>
+                    <li class="flex items-start">
+                        <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                        <span>Pay <strong>billions more</strong> in federal, state, and local income taxes based on their high median wages.</span>
+                    </li>
+                </ul>
+                <p class="text-sm text-gray-500 mt-4">
+                    (FICA calculation based on 7.65% tax on $125k median wage for 600k workers)
+                </p>
+            </div>
+
+            <!-- Contribution Card 4: Leadership -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg">
+                <h3 class="text-2xl font-bold text-gray-800 mb-3">Leadership & Impact</h3>
+                <p class="text-lg text-gray-700">
+                    Many of America's most iconic companies are led by individuals who began their U.S. careers on visas like the H-1B.
+                </p>
+                <ul class="mt-4 space-y-1 text-gray-700">
+                    <li><strong>Satya Nadella</strong> (CEO, Microsoft)</li>
+                    <li><strong>Sundar Pichai</strong> (CEO, Alphabet)</li>
+                    <li><strong>Elon Musk</strong> (CEO, Tesla/SpaceX)</li>
+                    <li><strong>Eric Yuan</strong> (Founder, Zoom)</li>
+                    <li><strong>Indra Nooyi</strong> (Former CEO, PepsiCo)</li>
+                    <li><strong>Mike Krieger</strong> (Co-founder, Instagram)</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer --><footer class="text-center py-10 mt-12 border-t border-gray-700">
+        <p class="text-gray-300">
+            Data sourced from U.S. Bureau of Labor Statistics (BLS), U.S. Citizenship and Immigration Services (USCIS), CompTIA, and NFAP.
+        </p>
+        <p class="text-sm text-gray-400 mt-1">This page is a static educational resource. All data is based on publicly available official reports.</p>
+    </footer>
+
+    <!-- 3. Chart.js Initialization --><script>
+        // Define colors from our <style> block
+        const h1bGreen = getComputedStyle(document.documentElement).getPropertyValue('--h1b-green') || '#16a34a';
+        const usBlue = getComputedStyle(document.documentElement).getPropertyValue('--us-blue') || '#3b82f6';
+        const usBlueLight = getComputedStyle(document.documentElement).getPropertyValue('--us-blue-light') || '#93c5fd';
+        const bgNeutral = getComputedStyle(document.documentElement).getPropertyValue('--bg-neutral') || '#e5e7eb';
+        const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--bg-neutral') || '#e5e7eb';
+
+
+        // Utility function to format numbers as dollars
+        const formatAsDollars = (value) => `$${value.toLocaleString('en-US')}`;
+
+        // === Chart 1: H-1B vs. Total Workforce (Donut) ===
+        const ctxPop = document.getElementById('populationChart').getContext('2d');
+        new Chart(ctxPop, {
+            type: 'doughnut',
+            data: {
+                labels: ['H-1B Population', 'Rest of U.S. Workforce'],
+                datasets: [{
+                    data: [600000, 163400000 - 600000], // Updated to 600k
+                    backgroundColor: [h1bGreen, bgNeutral],
+                    hoverBackgroundColor: [h1bGreen, bgNeutral],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                return `${label}: ${value.toLocaleString('en-US')}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // === Chart 2: H-1B vs. Tech Workforce (Donut) ===
+        const ctxTechPop = document.getElementById('techPopulationChart').getContext('2d');
+        new Chart(ctxTechPop, {
+            type: 'doughnut',
+            data: {
+                labels: ['H-1B Tech Workers', 'Rest of U.S. Tech Workforce'],
+                datasets: [{
+                    data: [390000, 9900000 - 390000], // Updated to ~390k (600k * 0.65)
+                    backgroundColor: [h1bGreen, bgNeutral],
+                    hoverBackgroundColor: [h1bGreen, bgNeutral],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => {
+                                const label = context.label || '';
+                                const value = context.parsed;
+                                return `${label}: ${value.toLocaleString('en-US')}`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // === Chart 3: Tech Wage Comparison (Bar) ===
+        const ctxTechWage = document.getElementById('techWageChart').getContext('2d');
+        new Chart(ctxTechWage, {
+            type: 'bar',
+            data: {
+                labels: ['US Tech Median (BLS)', 'US Software Dev. Median (BLS)', 'H-1B Tech Median (FY 2024)'],
+                datasets: [{
+                    label: 'Median Annual Wage',
+                    data: [105990, 131450, 135000], // H-1B Tech wage is $135k
+                    backgroundColor: [
+                        usBlueLight, // US Tech Median
+                        usBlue,      // US Software Dev. Median
+                        h1bGreen     // H-1B Tech Median (highest)
+                    ],
+                    borderRadius: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => formatAsDollars(context.parsed.y)
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            callback: (value) => formatAsDollars(value)
+                        },
+                        grid: {
+                            color: gridColor
+                        },
+                        title: {
+                            display: true,
+                            text: 'Median Annual Wage (USD)'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // === Chart 4: Education Level (Grouped Bar) ===
+        const ctxEducation = document.getElementById('educationChart').getContext('2d');
+        new Chart(ctxEducation, {
+            type: 'bar',
+            data: {
+                labels: ["Bachelor's Degree", "Advanced Degree (Master's, PhD, etc.)"],
+                datasets: [
+                    {
+                        label: 'H-1B Holders (FY24)',
+                        data: [34.4, 38.6], // Using FY24 data: 34.4% Bach, 38.6% Master's+
+                        backgroundColor: h1bGreen, // H-1B Green
+                        borderRadius: 6
+                    },
+                    {
+                        label: 'U.S. Employed (25+)',
+                        data: [28, 16.5], // US data remains
+                        backgroundColor: usBlue, // US Blue
+                        borderRadius: 6
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.label}: ${context.parsed.y}%`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Percentage of Population (%)'
+                        },
+                        grid: {
+                            color: gridColor
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    }
+                }
+            }
+        });
+
+        // === NEW CHART 5: Innovation 1 (Donut) ===
+        const ctxInnovation1 = document.getElementById('innovationChart1').getContext('2d');
+        new Chart(ctxInnovation1, {
+            type: 'doughnut',
+            data: {
+                labels: ['Immigrant-Founded', 'Not Immigrant-Founded'],
+                datasets: [{
+                    data: [55, 45], // 55% vs 45%
+                    backgroundColor: [h1bGreen, bgNeutral],
+                    hoverBackgroundColor: [h1bGreen, bgNeutral],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.label}: ${context.parsed}%`
+                        }
+                    }
+                }
+            }
+        });
+
+        // === NEW CHART 6: Innovation 2 (Donut) ===
+        const ctxInnovation2 = document.getElementById('innovationChart2').getContext('2d');
+        new Chart(ctxInnovation2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Founded by Immigrant or Child of Immigrant', 'Other'],
+                datasets: [{
+                    data: [64, 36], // 64% vs 36%
+                    backgroundColor: [h1bGreen, bgNeutral],
+                    hoverBackgroundColor: [h1bGreen, bgNeutral],
+                    borderWidth: 0,
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '75%',
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: (context) => `${context.label}: ${context.parsed}%`
+                        }
+                    }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
